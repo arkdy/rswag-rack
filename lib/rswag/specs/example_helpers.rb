@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'rswag/specs/request_factory'
-require 'rswag/specs/response_validator'
+require "rswag/specs/request_factory"
+require "rswag/specs/response_validator"
 
 module Rswag
   module Specs
@@ -9,21 +9,12 @@ module Rswag
       def submit_request(metadata)
         request = RequestFactory.new.build_request(metadata, self)
 
-        if RAILS_VERSION < 5
-          send(
-            request[:verb],
-            request[:path],
-            request[:payload],
-            request[:headers]
-          )
-        else
-          send(
-            request[:verb],
-            request[:path],
-            params: request[:payload],
-            headers: request[:headers]
-          )
-        end
+        send(
+          request[:verb],
+          request[:path],
+          request[:payload],
+          request[:headers]
+        )
       end
 
       def assert_response_matches_metadata(metadata)
