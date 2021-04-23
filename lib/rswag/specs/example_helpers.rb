@@ -29,28 +29,14 @@ module Rswag
       private
 
       def send_external_request(request)
-        connection = Faraday.new(
-          url: request[:path],
-          params: request[:payload],
-          headers: request[:headers]
-        )
-        
-        choise_faraday_method(request[:verb], connection)
-      end
+        connection = Faraday.new
 
-      def choise_faraday_method(method, connection)
-        case method
-        when :get
-          connection.get
-        when :post
-          connection.post
-        when :put
-          connection.put
-        when :patch
-          connection.patch
-        when :delete
-          connection.delete
-        end
+        connection.run_request(
+          request[:verb],
+          request[:path],
+          request[:payload],
+          request[:headers]
+        )
       end
     end
   end
