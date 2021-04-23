@@ -20,10 +20,17 @@ module Rswag
           add_path(request, metadata, swagger_doc, parameters, example)
           add_headers(request, metadata, swagger_doc, parameters, example)
           add_payload(request, parameters, example)
+          add_external_api_parameter(request, parameters)
         end
       end
 
       private
+
+      def add_external_api_parameter(request, parameters)
+        request[:external_api] = parameters
+          .collect { |parameter|parameter[:external_api] }
+          .first
+      end
 
       def expand_parameters(metadata, swagger_doc, example)
         operation_params = metadata[:operation][:parameters] || []
